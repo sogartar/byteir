@@ -31,6 +31,7 @@ if(BYTEIR_INCLUDE_TESTS)
     ByteIRTestInterface
     ByteIRTestTransformation
     ByteIRTestUtils
+    MLIRMeshTest
     )
 endif()
 

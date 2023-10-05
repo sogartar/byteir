@@ -57,6 +57,8 @@ LogicalResult setShardingAnnotation(OpBuilder &b, OpResult result,
 FailureOr<SmallVector<SmallVector<int64_t>>>
 getShardingAnnotation(OpResult result, bool mergeOperandAnnotations = false);
 
+void registerShardingInterfaceExternalModels(DialectRegistry &registry);
+
 namespace detail {
 
 FailureOr<ShardingOption> defaultGetShardingOption(Operation *op, OpBuilder &b);

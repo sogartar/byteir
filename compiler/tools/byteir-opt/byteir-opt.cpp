@@ -27,6 +27,7 @@
 #include "byteir/Dialect/Linalg/TransformOps/LinalgExtTransformOps.h"
 #include "byteir/Dialect/MemRef/Passes.h"
 #include "byteir/Dialect/Mesh/IR/MeshOps.h"
+#include "byteir/Dialect/Mesh/Interfaces/ShardingInterface.h"
 #include "byteir/Dialect/Mesh/Transforms/Passes.h"
 #include "byteir/Dialect/SCF/Passes.h"
 #include "byteir/Dialect/Shape/IR/ShapeExtOps.h"
@@ -72,6 +73,12 @@
 using namespace llvm;
 using namespace mlir;
 
+namespace mlir {
+namespace mesh {
+void registerTestPrintCompositeOpShardingInterfacePass();
+} // namespace mesh
+} // namespace mlir
+
 namespace byteir {
 namespace test {
 void registerTestMhloCanonicalizeExtPass();
@@ -107,6 +114,7 @@ void registerTestPasses() {
   byteir::test::registerTestByreOpInterfacePass();
   byteir::test::registerTestBroadcastDenseElementsAttrPass();
   byteir::test::registerTestMergeTwoModulesPass();
+  mlir::mesh::registerTestPrintCompositeOpShardingInterfacePass();
 }
 #endif
 
@@ -166,6 +174,7 @@ int main(int argc, char **argv) {
   transform_ext::registerTransformDialectExtension(registry);
   tensor_ext::registerTilingInterfaceExternalModels(registry);
   mhlo::registerShardingInterfaceExternalModels(registry);
+  mlir::mesh::registerShardingInterfaceExternalModels(registry);
 
   return mlir::asMainReturnCode(
       mlir::MlirOptMain(argc, argv, "ByteIR pass driver\n", registry));

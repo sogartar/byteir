@@ -17,8 +17,10 @@
 
 #include "byteir/Dialect/Mesh/Interfaces/ShardingInterface.h"
 #include "byteir/Dialect/Mesh/IR/MeshOps.h"
+#include "byteir/Dialect/Mesh/Interfaces/CompositeOpShardingInterface.h"
 #include "byteir/Utils/AttrUtils.h"
 #include "byteir/Utils/Utils.h"
+#include "mlir/Dialect/Func/IR/FuncOps.h"
 #include "mlir/Dialect/Utils/IndexingUtils.h"
 #include "mlir/IR/AffineMap.h"
 #include "mlir/IR/BuiltinOps.h"
@@ -594,4 +596,13 @@ FailureOr<Value> mlir::mesh::createCclOpBetweenShardings(
   }
 
   return curVal;
+}
+
+void mlir::mesh::registerShardingInterfaceExternalModels(
+    DialectRegistry &registry) {
+  registry.addExtension(+[](MLIRContext *ctx, MeshDialect *meshDialect,
+                            func::FuncDialect *funcDialect) {
+    func::FuncOp::attachInterface<CompositeOpShardingInteface<func::FuncOp>>(
+        *ctx);
+  });
 }
